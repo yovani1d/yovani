@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museo Web de la Evolución Gráfica</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        museum: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155',
+                            accent: '#06b6d4',
+                            accentHover: '#0891b2',
+                            neonGreen: '#10b981',
+                            neonPurple: '#a855f7',
+                            text: '#f8fafc',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        /* Estilos de foco accesibles */
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+            outline: 3px solid #06b6d4 !important;
+            outline-offset: 3px !important;
+        }
+
+        /* Personalización de scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+    </style>
+</head>
+<body class="bg-museum-bg text-museum-text font-sans antialiased selection:bg-museum-accent selection:text-slate-900 min-h-screen flex flex-col">
+
+    <!-- Indicador de Accesibilidad / Salto de Navegación -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-museum-accent focus:text-slate-900 focus:font-bold focus:rounded-lg">
+        Saltar al contenido principal
+    </a>
+
+    <!-- Encabezado y Navegación Principal -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-museum-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center text-slate-900 font-black text-xl" aria-hidden="true">
+                        MG
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold tracking-wider text-museum-accent uppercase block">Exhibición Interactiva</span>
+                        <h1 class="text-base sm:text-lg font-bold text-white tracking-tight leading-none">Museo de la Evolución Gráfica</h1>
+                    </div>
+                </div>
+
+                <!-- Menú de navegación principal (Desktop) -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2" aria-label="Navegación principal">
+                    <a href="#portada" class="px-3 py-2 rounded-md text-xs font-medium text-museum-muted hover:text-white hover:bg-slate-800 transition-colors">1. Portada</a>
+                    <a href="#cinco-momentos" class="px-3 py-2 rounded-md text-xs font-medium text-museum-muted hover:text-white hover:bg-slate-800 transition-colors">2. Momentos</a>
+                    <a href="#aplicacion-real" class="px-3 py-2 rounded-md text-xs font-medium text-museum-muted hover:text-white hover:bg-slate-800 transition-colors">3. Aplicación</a>
+                    <a href="#experimentos" class="px-3 py-2 rounded-md text-xs font-medium text-museum-muted hover:text-white hover:bg-slate-800 transition-colors">4. Experimentos</a>
+                    <a href="#algoritmo" class="px-3 py-2 rounded-md text-xs font-medium text-museum-muted hover:text-white hover:bg-slate-800 transition-colors">5. Algoritmo</a>
+                    <a href="#glosario" class="px-3 py-2 rounded-md text-xs font-medium text-museum-muted hover:text-white hover:bg-slate-800 transition-colors">6. Glosario</a>
+                    <a href="#cierre" class="px-3 py-2 rounded-md text-xs font-medium text-museum-muted hover:text-white hover:bg-slate-800 transition-colors">7. Cierre</a>
+                </nav>
+
+                <!-- Menú Móvil Botón -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-slate-800 text-museum-muted hover:text-white focus:outline-none" aria-label="Abrir menú de navegación" aria-expanded="false">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-museum-border bg-slate-900 px-4 pt-2 pb-4 space-y-1">
+            <a href="#portada" class="block px-3 py-2 rounded-md text-sm font-medium text-museum-muted hover:text-white hover:bg-slate-800">1. Portada</a>
+            <a href="#cinco-momentos" class="block px-3 py-2 rounded-md text-sm font-medium text-museum-muted hover:text-white hover:bg-slate-800">2. Cinco Momentos</a>
+            <a href="#aplicacion-real" class="block px-3 py-2 rounded-md text-sm font-medium text-museum-muted hover:text-white hover:bg-slate-800">3. Aplicación Real</a>
+            <a href="#experimentos" class="block px-3 py-2 rounded-md text-sm font-medium text-museum-muted hover:text-white hover:bg-slate-800">4. Tres Experimentos</a>
+            <a href="#algoritmo" class="block px-3 py-2 rounded-md text-sm font-medium text-museum-muted hover:text-white hover:bg-slate-800">5. Algoritmo</a>
+            <a href="#glosario" class="block px-3 py-2 rounded-md text-sm font-medium text-museum-muted hover:text-white hover:bg-slate-800">6. Glosario</a>
+            <a href="#cierre" class="block px-3 py-2 rounded-md text-sm font-medium text-museum-muted hover:text-white hover:bg-slate-800">7. Cierre y Créditos</a>
+        </div>
+    </header>
+
+    <main id="main-content" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- ==================== SECCIÓN 1: PORTADA ==================== -->
+        <section id="portada" class="scroll-mt-20 relative bg-gradient-to-b from-slate-800/80 to-museum-card p-6 sm:p-10 rounded-2xl border border-museum-border shadow-2xl overflow-hidden">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -z-0 pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    Exhibición Digital Autosostenible
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                    Museo Web de la <span class="bg-gradient-to-r from-cyan-400 via-emerald-400 to-purple-400 bg-clip-text text-transparent">Evolución Gráfica</span>
+                </h1>
+
+                <!-- Autor / Configuración -->
+                <div class="flex flex-wrap items-center gap-4 text-sm text-museum-muted border-y border-museum-border/60 py-4">
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-slate-300">Autor/Investigador:</span>
+                        <input type="text" id="author-name-input" value="Estudiante de Computación Gráfica" class="bg-slate-900 border border-museum-border rounded px-3 py-1 text-white text-sm focus:border-museum-accent transition-colors" aria-label="Nombre del autor editable">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-slate-300">Fecha:</span>
+                        <span class="text-emerald-400 font-mono">Octubre 2026</span>
+                    </div>
+                </div>
+
+                <!-- Definición propia de graficación -->
+                <div class="bg-slate-900/80 p-5 rounded-xl border border-museum-border/80 space-y-2">
+                    <h2 class="text-sm font-bold uppercase tracking-wider text-museum-accent flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Definición Propia de Graficación por Computadora
+                    </h2>
+                    <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
+                        La graficación por computadora es el arte y la disciplina científica de traducir datos numéricos, modelos geométricos y algoritmos abstractos en representaciones visuales comprensibles para el ser humano. Va más allá de dibujar píxeles: es el puente entre el procesamiento matemático abstracto de las máquinas y la percepción visual del cerebro, permitiendo simular realidades, comunicar patrones complejos e interactuar con la información en tiempo real.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECCIÓN 2: CINCO MOMENTOS ==================== -->
+        <section id="cinco-momentos" class="scroll-mt-20 space-y-6">
+            <div class="border-b border-museum-border pb-4">
+                <span class="text-xs font-bold text-museum-accent uppercase tracking-wider">Sección 2</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">Cinco Momentos Clave en la Evolución Gráfica</h2>
+                <p class="text-museum-muted text-sm mt-1">Hitos históricos que transformaron la computación visual desde los osciloscopios hasta el trazado de rayos en tiempo real.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+                <!-- Momento 1 -->
+                <article class="bg-museum-card border border-museum-border rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition-all shadow-lg">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">1963 - Sketchpad</span>
+                            <span class="text-xs text-museum-muted font-bold">Hito 1</span>
+                        </div>
+                        <!-- SVG Representativo -->
+                        <div class="w-full h-32 bg-slate-900 rounded-lg flex items-center justify-center p-2 border border-slate-800" aria-label="Ilustración vectorial de Sketchpad con lápiz óptico">
+                            <svg class="w-full h-full text-cyan-400" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="20" y="10" width="160" height="80" rx="5" stroke="#475569" fill="#0f172a" />
+                                <circle cx="100" cy="50" r="25" stroke="#06b6d4" stroke-dasharray="4 2" />
+                                <line x1="100" y1="25" x2="100" y2="75" stroke="#06b6d4" />
+                                <line x1="75" y1="50" x2="125" y2="50" stroke="#06b6d4" />
+                                <path d="M140 20 L160 40 L130 70 L110 50 Z" fill="#10b981" fill-opacity="0.2" stroke="#10b981" />
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Nacimiento del Gráfico Interactivo</h3>
+                        <div class="text-xs space-y-2 text-slate-300">
+                            <p><strong class="text-cyan-400">Limitación anterior:</strong> Gráficos estáticos impresos en papel por teletipos; sin interacción directa.</p>
+                            <p><strong class="text-cyan-400">Cambio:</strong> Ivan Sutherland creó Sketchpad usando un lápiz óptico directo sobre un tubo de rayos catódicos (CRT).</p>
+                            <p><strong class="text-cyan-400">Impacto:</strong> Permitió manipular objetos geométricos en tiempo real; base del CAD moderno.</p>
+                            <p><strong class="text-cyan-400">Ejemplo actual:</strong> Software CAD (AutoCAD) y tabletas gráficas táctiles.</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/60 text-[10px] text-museum-muted">
+                        <strong>Fuente / Crédito:</strong> MIT Lincoln Laboratory / Sutherland, I. E. (1963).
+                    </div>
+                </article>
+
+                <!-- Momento 2 -->
+                <article class="bg-museum-card border border-museum-border rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition-all shadow-lg">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-purple-950 text-purple-400 border border-purple-800">1975 - Utah Teapot</span>
+                            <span class="text-xs text-museum-muted font-bold">Hito 2</span>
+                        </div>
+                        <!-- SVG Representativo -->
+                        <div class="w-full h-32 bg-slate-900 rounded-lg flex items-center justify-center p-2 border border-slate-800" aria-label="Ilustración 3D vectorial de la tetera de Utah con sombreado de alambre">
+                            <svg class="w-full h-full text-purple-400" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M60 40 Q100 20 140 40 Q150 70 140 80 Q100 90 60 80 Z" stroke="#a855f7" fill="#a855f7" fill-opacity="0.1" />
+                                <path d="M140 50 C170 50 170 70 140 75" stroke="#a855f7" />
+                                <path d="M60 55 C40 40 30 30 20 40 C15 45 25 60 55 65" stroke="#a855f7" />
+                                <ellipse cx="100" cy="35" rx="20" ry="5" stroke="#a855f7" />
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Modelado 3D y Sombreado Phong</h3>
+                        <div class="text-xs space-y-2 text-slate-300">
+                            <p><strong class="text-purple-400">Limitación anterior:</strong> Objetos 3D planos, sin curvas suaves ni especularidad lumínica realista.</p>
+                            <p><strong class="text-purple-400">Cambio:</strong> Martin Newell estandarizó la "Utah Teapot" y Bui Tuong Phong introdujo el sombreado especular.</p>
+                            <p><strong class="text-purple-400">Impacto:</strong> Modelo de referencia universal para probar algoritmos de curvatura e iluminación.</p>
+                            <p><strong class="text-purple-400">Ejemplo actual:</strong> Motores de render 3D en cine de animación (Pixar) y videojuegos.</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/60 text-[10px] text-museum-muted">
+                        <strong>Fuente / Crédito:</strong> Universidad de Utah / Martin Newell (1975).
+                    </div>
+                </article>
+
+                <!-- Momento 3 -->
+                <article class="bg-museum-card border border-museum-border rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition-all shadow-lg">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">1996 - GPU 3D</span>
+                            <span class="text-xs text-museum-muted font-bold">Hito 3</span>
+                        </div>
+                        <!-- SVG Representativo -->
+                        <div class="w-full h-32 bg-slate-900 rounded-lg flex items-center justify-center p-2 border border-slate-800" aria-label="Ilustración de tarjeta aceleradora 3D e interfaces de hardware">
+                            <svg class="w-full h-full text-emerald-400" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="30" y="20" width="140" height="60" rx="4" stroke="#10b981" fill="#064e3b" fill-opacity="0.2" />
+                                <rect x="80" y="35" width="40" height="30" rx="2" stroke="#10b981" fill="#10b981" fill-opacity="0.3" />
+                                <circle cx="100" cy="50" r="8" stroke="#10b981" />
+                                <line x1="30" y1="80" x2="170" y2="80" stroke="#fbbf24" stroke-width="3" stroke-dasharray="6 3" />
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Aceleración por Hardware (3dfx Voodoo)</h3>
+                        <div class="text-xs space-y-2 text-slate-300">
+                            <p><strong class="text-emerald-400">Limitación anterior:</strong> Rendereado por software mediante CPU principal, causando lentitud extrema.</p>
+                            <p><strong class="text-emerald-400">Cambio:</strong> Nacimiento de procesadores dedicados exclusivamente a cálculos matriciales y texturizado.</p>
+                            <p><strong class="text-emerald-400">Impacto:</strong> Masificación de los gráficos tridimensionales fluidos a 30-60 FPS para el consumidor.</p>
+                            <p><strong class="text-emerald-400">Ejemplo actual:</strong> Tarjetas gráficas dedicadas NVIDIA RTX y AMD Radeon.</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/60 text-[10px] text-museum-muted">
+                        <strong>Fuente / Crédito:</strong> IEEE Computer Graphics / Historia del Hardware 3dfx Interactive.
+                    </div>
+                </article>
+
+                <!-- Momento 4 -->
+                <article class="bg-museum-card border border-museum-border rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition-all shadow-lg">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-amber-950 text-amber-400 border border-amber-800">2001 - Shaders</span>
+                            <span class="text-xs text-museum-muted font-bold">Hito 4</span>
+                        </div>
+                        <!-- SVG Representativo -->
+                        <div class="w-full h-32 bg-slate-900 rounded-lg flex items-center justify-center p-2 border border-slate-800" aria-label="Ilustración de pipeline gráfico programable con Shaders">
+                            <svg class="w-full h-full text-amber-400" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M30 50 L70 20 L110 50 L70 80 Z" stroke="#f59e0b" fill="#f59e0b" fill-opacity="0.2" />
+                                <path d="M110 50 L140 30 L170 50 L140 70 Z" stroke="#38bdf8" fill="#38bdf8" fill-opacity="0.2" />
+                                <line x1="70" y1="50" x2="140" y2="50" stroke="#f59e0b" stroke-dasharray="3 3" />
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Pipeline Programable (Programmable Shaders)</h3>
+                        <div class="text-xs space-y-2 text-slate-300">
+                            <p><strong class="text-amber-400">Limitación anterior:</strong> Pipeline fijo rígido (OpenGL 1.x / Direct3D 7); efectos visuales predeterminados.</p>
+                            <p><strong class="text-amber-400">Cambio:</strong> Introducción de Vertex & Pixel Shaders (HLSL/GLSL) con DirectX 8.</p>
+                            <p><strong class="text-amber-400">Impacto:</strong> Control total por código sobre la geometría y apariencia de cada píxel en pantalla.</p>
+                            <p><strong class="text-amber-400">Ejemplo actual:</strong> Shader Graph en Unity, Unreal Engine 5 (HLSL/GLSL).</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/60 text-[10px] text-museum-muted">
+                        <strong>Fuente / Crédito:</strong> Khronos Group / Especificación OpenGL 2.0 & DirectX.
+                    </div>
+                </article>
+
+                <!-- Momento 5 -->
+                <article class="bg-museum-card border border-museum-border rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition-all shadow-lg">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-mono px-2.5 py-1 rounded bg-rose-950 text-rose-400 border border-rose-800">2018 - Ray Tracing</span>
+                            <span class="text-xs text-museum-muted font-bold">Hito 5</span>
+                        </div>
+                        <!-- SVG Representativo -->
+                        <div class="w-full h-32 bg-slate-900 rounded-lg flex items-center justify-center p-2 border border-slate-800" aria-label="Ilustración de haces de luz rebotando mediante trazado de rayos">
+                            <svg class="w-full h-full text-rose-400" viewBox="0 0 200 100" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="40" cy="30" r="12" fill="#f43f5e" fill-opacity="0.8" />
+                                <line x1="40" y1="30" x2="100" y2="70" stroke="#f43f5e" stroke-width="2" />
+                                <line x1="100" y1="70" x2="160" y2="20" stroke="#38bdf8" stroke-width="2" />
+                                <line x1="100" y1="70" x2="180" y2="85" stroke="#10b981" stroke-width="1.5" stroke-dasharray="2 2" />
+                                <rect x="80" y="65" width="40" height="20" rx="2" stroke="#e2e8f0" fill="#334155" />
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-bold text-white">Trazado de Rayos en Tiempo Real (RTX)</h3>
+                        <div class="text-xs space-y-2 text-slate-300">
+                            <p><strong class="text-rose-400">Limitación anterior:</strong> Sombras y reflejos aproximados por mapas estáticos o trucos ópticos.</p>
+                            <p><strong class="text-rose-400">Cambio:</strong> Aceleración por hardware de intersecciones rayo-triángulo en milisegundos.</p>
+                            <p><strong class="text-rose-400">Impacto:</strong> Simulación física real del comportamiento de fotones y reflejos exactos.</p>
+                            <p><strong class="text-rose-400">Ejemplo actual:</strong> Simulaciones de física óptica, Unreal Engine 5 Lumen y arquitectura DXR.</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/60 text-[10px] text-museum-muted">
+                        <strong>Fuente / Crédito:</strong> NVIDIA Research / DXR Specification (Microsoft).
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ==================== SECCIÓN 3: APLICACIÓN REAL ==================== -->
+        <section id="aplicacion-real" class="scroll-mt-20 space-y-6">
+            <div class="border-b border-museum-border pb-4">
+                <span class="text-xs font-bold text-museum-accent uppercase tracking-wider">Sección 3</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">Aplicación Real: Caso Práctico en Telemedicina</h2>
+                <p class="text-museum-muted text-sm mt-1">Flujo metodológico continuo de datos complejos transformados en decisiones críticas mediante graficación por computadora.</p>
+            </div>
+
+            <!-- Diagrama interactivo de flujo -->
+            <div class="bg-museum-card border border-museum-border rounded-2xl p-6 sm:p-8 space-y-8">
+                <div class="text-center max-w-2xl mx-auto">
+                    <h3 class="text-lg font-bold text-white">Caso: Detección Temprana y Mapeo 3D de Tumores Cerebrales</h3>
+                    <p class="text-xs text-museum-muted mt-1">Cómo la computación gráfica convierte tomografías axiales en modelos tridimensionales para cirugía asistida.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+                    <!-- Paso 1 -->
+                    <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 flex flex-col items-center text-center space-y-3 hover:border-cyan-500 transition-all">
+                        <div class="w-10 h-10 rounded-full bg-cyan-950 text-cyan-400 font-mono font-bold flex items-center justify-center border border-cyan-800">
+                            1
+                        </div>
+                        <h4 class="text-xs font-bold text-cyan-300 uppercase tracking-wide">Usuario</h4>
+                        <p class="text-xs text-slate-300">
+                            <strong>Médico Neurocirujano</strong> y equipo de radiología clínica.
+                        </p>
+                    </div>
+
+                    <!-- Flecha conector -->
+                    <div class="hidden md:flex items-center justify-center text-museum-muted" aria-hidden="true">➔</div>
+
+                    <!-- Paso 2 -->
+                    <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 flex flex-col items-center text-center space-y-3 hover:border-cyan-500 transition-all">
+                        <div class="w-10 h-10 rounded-full bg-purple-950 text-purple-400 font-mono font-bold flex items-center justify-center border border-purple-800">
+                            2
+                        </div>
+                        <h4 class="text-xs font-bold text-purple-300 uppercase tracking-wide">Problema</h4>
+                        <p class="text-xs text-slate-300">
+                            Dificultad para calcular el volumen exacto y contornos de un tejido anómalo mediante cortes 2D planos independientes.
+                        </p>
+                    </div>
+
+                    <!-- Flecha conector -->
+                    <div class="hidden md:flex items-center justify-center text-museum-muted" aria-hidden="true">➔</div>
+
+                    <!-- Paso 3 -->
+                    <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 flex flex-col items-center text-center space-y-3 hover:border-cyan-500 transition-all">
+                        <div class="w-10 h-10 rounded-full bg-emerald-950 text-emerald-400 font-mono font-bold flex items-center justify-center border border-emerald-800">
+                            3
+                        </div>
+                        <h4 class="text-xs font-bold text-emerald-300 uppercase tracking-wide">Datos</h4>
+                        <p class="text-xs text-slate-300">
+                            Matriz de datos DICOM: densidad de tejido expresada en unidades Hounsfield (HU) por vóxel.
+                        </p>
+                    </div>
+
+                    <!-- Flecha conector -->
+                    <div class="hidden md:flex items-center justify-center text-museum-muted" aria-hidden="true">➔</div>
+
+                    <!-- Paso 4 -->
+                    <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 flex flex-col items-center text-center space-y-3 hover:border-cyan-500 transition-all">
+                        <div class="w-10 h-10 rounded-full bg-amber-950 text-amber-400 font-mono font-bold flex items-center justify-center border border-amber-800">
+                            4
+                        </div>
+                        <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wide">Representación</h4>
+                        <p class="text-xs text-slate-300">
+                            Modelo 3D interactivo procesado por algoritmos de <i>Marching Cubes</i> con código de color de falso contraste según densidad.
+                        </p>
+                    </div>
+
+                    <!-- Flecha conector -->
+                    <div class="hidden md:flex items-center justify-center text-museum-muted" aria-hidden="true">➔</div>
+
+                    <!-- Paso 5 -->
+                    <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-4 flex flex-col items-center text-center space-y-3 hover:border-cyan-500 transition-all">
+                        <div class="w-10 h-10 rounded-full bg-rose-950 text-rose-400 font-mono font-bold flex items-center justify-center border border-rose-800">
+                            5
+                        </div>
+                        <h4 class="text-xs font-bold text-rose-300 uppercase tracking-wide">Decisión</h4>
+                        <p class="text-xs text-slate-300">
+                            Planificación exacta de la trayectoria quirúrgica conservando áreas motoras sanas y minimizando riesgos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECCIÓN 4: TRES EXPERIMENTOS INTERACTIVOS ==================== -->
+        <section id="experimentos" class="scroll-mt-20 space-y-6">
+            <div class="border-b border-museum-border pb-4">
+                <span class="text-xs font-bold text-museum-accent uppercase tracking-wider">Sección 4</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">Laboratorio de Tres Experimentos Visuales</h2>
+                <p class="text-museum-muted text-sm mt-1">Interactúa con los modelos de color, ajusta valores numéricos en tiempo real y observa las diferencias absolutas ($\Delta$).</p>
+            </div>
+
+            <!-- Experimento 1: Espacio RGB vs CMY -->
+            <div class="bg-museum-card border border-museum-border rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-700/80 pb-4">
+                    <div>
+                        <span class="text-xs font-mono text-cyan-400">Experimento 01</span>
+                        <h3 class="text-lg font-bold text-white">Conversión Espacio RGB Aditivo a CMY Sustractivo</h3>
+                    </div>
+                    <div class="bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 text-xs text-slate-300">
+                        <strong>Predicción:</strong> Al aumentar el canal Rojo (R) al máximo (255), el Cyan (C) en el modelo CMY complementario debe dar exactamente 0.
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Controles -->
+                    <div class="space-y-4">
+                        <label for="exp1-r" class="block text-xs font-semibold text-slate-300">Red (Rojo) [0 - 255]: <span id="val-r" class="text-cyan-400 font-mono">200</span></label>
+                        <input type="range" id="exp1-r" min="0" max="255" value="200" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500" aria-label="Canal Rojo">
+
+                        <label for="exp1-g" class="block text-xs font-semibold text-slate-300">Green (Verde) [0 - 255]: <span id="val-g" class="text-emerald-400 font-mono">100</span></label>
+                        <input type="range" id="exp1-g" min="0" max="255" value="100" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500" aria-label="Canal Verde">
+
+                        <label for="exp1-b" class="block text-xs font-semibold text-slate-300">Blue (Azul) [0 - 255]: <span id="val-b" class="text-purple-400 font-mono">50</span></label>
+                        <input type="range" id="exp1-b" min="0" max="255" value="50" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-500" aria-label="Canal Azul">
+                    </div>
+
+                    <!-- Resultados / Cálculo Delta -->
+                    <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 space-y-4 flex flex-col justify-between">
+                        <div class="flex items-center gap-4">
+                            <div id="exp1-color-box" class="w-20 h-20 rounded-lg border-2 border-slate-600 shadow-md transition-all"></div>
+                            <div class="text-xs space-y-1 font-mono">
+                                <p class="text-slate-300">RGB Normalized: (<span id="rgb-norm">0.78, 0.39, 0.20</span>)</p>
+                                <p class="text-cyan-300">CMY Calculated: (<span id="cmy-val">0.22, 0.61, 0.80</span>)</p>
+                                <p class="text-amber-300">Máximo RGB: <span id="exp1-max">200</span> | Mínimo RGB: <span id="exp1-min">50</span></p>
+                                <p class="text-emerald-400 font-bold">Delta (Max - Min): <span id="exp1-delta">150</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-lg text-xs text-slate-300 border border-slate-800">
+                            <strong>Conclusión del Experimento:</strong> <span id="exp1-conclusion">El modelo RGB representa síntesis aditiva para pantallas, mientras que CMY es su opuesto complementario directo ($C = 1 - R/255$). Un Delta mayor refleja mayor saturación de color primario sobre neutro.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experimento 2: Conversión a Tono, Saturación y Luminosidad (HSL / HSV) -->
+            <div class="bg-museum-card border border-museum-border rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-700/80 pb-4">
+                    <div>
+                        <span class="text-xs font-mono text-purple-400">Experimento 02</span>
+                        <h3 class="text-lg font-bold text-white">Análisis de Luminancia HSL y Saturación HSV</h3>
+                    </div>
+                    <div class="bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 text-xs text-slate-300">
+                        <strong>Predicción:</strong> Cuando todos los valores R, G y B son idénticos (escala de grises), la delta entre el máximo y el mínimo será idénticamente cero ($\Delta = 0$).
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Controles rápidos de presets -->
+                    <div class="space-y-4">
+                        <p class="text-xs text-slate-300">Selecciona o prueba casos de estudio dinámicos:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="setExp2Color(128,128,128)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded text-xs font-mono text-cyan-300 border border-slate-700">Gris Acromático (R=G=B)</button>
+                            <button onclick="setExp2Color(255,0,0)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded text-xs font-mono text-rose-300 border border-slate-700">Rojo Puro (255,0,0)</button>
+                            <button onclick="setExp2Color(255,255,255)" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded text-xs font-mono text-white border border-slate-700">Blanco Absoluto</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 pt-2">
+                            <div>
+                                <label for="exp2-r" class="text-[11px] text-slate-400">Rojo</label>
+                                <input type="number" id="exp2-r" min="0" max="255" value="128" oninput="updateExp2()" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-white">
+                            </div>
+                            <div>
+                                <label for="exp2-g" class="text-[11px] text-slate-400">Verde</label>
+                                <input type="number" id="exp2-g" min="0" max="255" value="128" oninput="updateExp2()" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-white">
+                            </div>
+                            <div>
+                                <label for="exp2-b" class="text-[11px] text-slate-400">Azul</label>
+                                <input type="number" id="exp2-b" min="0" max="255" value="128" oninput="updateExp2()" class="w-full bg-slate-900 border border-slate-700 rounded p-1 text-xs text-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Métricas HSL/HSV -->
+                    <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 space-y-3">
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <span class="text-slate-400 block">Hue (Tono):</span>
+                                <span id="exp2-hue" class="text-cyan-400 font-bold text-sm">0°</span>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <span class="text-slate-400 block">Luminosidad (HSL):</span>
+                                <span id="exp2-lum" class="text-purple-400 font-bold text-sm">50%</span>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <span class="text-slate-400 block">Máximo / Mínimo:</span>
+                                <span id="exp2-maxmin" class="text-amber-400 font-bold">128 / 128</span>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded border border-slate-800">
+                                <span class="text-slate-400 block">Delta Calculado ($\Delta$):</span>
+                                <span id="exp2-delta" class="text-emerald-400 font-bold text-sm">0</span>
+                            </div>
+                        </div>
+                        <p id="exp2-conclusion" class="text-xs text-slate-300 bg-slate-950 p-3 rounded border border-slate-800">
+                            <strong>Conclusión:</strong> Al ser la diferencia $\Delta = 0$, la acromaticidad es absoluta. No existe un tono cromático definible y la saturación cae exactamente a 0%.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experimento 3: Umbralizado y Binarización por Delta de Píxeles -->
+            <div class="bg-museum-card border border-museum-border rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-700/80 pb-4">
+                    <div>
+                        <span class="text-xs font-mono text-emerald-400">Experimento 03</span>
+                        <h3 class="text-lg font-bold text-white">Algoritmo de Extracción de Bordes por Rango Delta</h3>
+                    </div>
+                    <div class="bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-700 text-xs text-slate-300">
+                        <strong>Predicción:</strong> Ajustar el umbral Delta modificará la sensibilidad de los contrastes, aislando regiones de grises frente a tonos vivos.
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="space-y-3">
+                        <label for="exp3-threshold" class="block text-xs font-semibold text-slate-300">Umbral de Delta ($\Delta_{corte}$): <span id="exp3-thresh-val" class="text-emerald-400 font-mono">30</span></label>
+                        <input type="range" id="exp3-threshold" min="0" max="150" value="30" oninput="renderExp3Canvas()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500" aria-label="Umbral Delta">
+                        <p class="text-[11px] text-museum-muted">
+                            Los píxeles cuyo $\Delta = \max(R,G,B) - \min(R,G,B)$ sea menor al umbral se consideran acromáticos (grises) y se colorean en tono oscuro.
+                        </p>
+                    </div>
+
+                    <!-- Canvas interactivo dinámico -->
+                    <div class="md:col-span-2 bg-slate-900 p-3 rounded-xl border border-slate-800 flex flex-col items-center">
+                        <canvas id="exp3-canvas" class="w-full h-40 bg-slate-950 rounded border border-slate-800" aria-label="Lienzo de prueba gráfica renderizado dinámicamente"></canvas>
+                        <p class="text-[10px] text-museum-muted mt-2">Visualización procesada en tiempo real usando algoritmo de muestreo sintético de gradientes.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-lg text-xs text-slate-300 border border-slate-800">
+                    <strong>Conclusión del Experimento:</strong> El filtro mediante el parámetro Delta permite segmentar imágenes separando información de color de la información únicamente luminosa, técnica clave en visión por computadora.
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECCIÓN 5: ALGORITMO ==================== -->
+        <section id="algoritmo" class="scroll-mt-20 space-y-6">
+            <div class="border-b border-museum-border pb-4">
+                <span class="text-xs font-bold text-museum-accent uppercase tracking-wider">Sección 5</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">Algoritmo de Cálculo Delta y Caso Especial ($\Delta = 0$)</h2>
+                <p class="text-museum-muted text-sm mt-1">Estructura lógica formal, pseudocódigo funcional y explicación geométrica del comportamiento ante acromaticidad.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Pseudocódigo -->
+                <div class="bg-museum-card border border-museum-border rounded-xl p-5 space-y-3 font-mono text-xs">
+                    <h3 class="text-sm font-bold text-cyan-400 font-sans flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                        Pseudocódigo: CalcularDeltaYMatiz(R, G, B)
+                    </h3>
+                    <pre class="bg-slate-900 p-4 rounded-lg text-slate-300 overflow-x-auto border border-slate-800 leading-relaxed">
+<span class="text-purple-400">FUNCION</span> CalcularEspacioCromatico(r_norm, g_norm, b_norm):
+    <span class="text-slate-500">// Paso 1: Encontrar Extremos</span>
+    c_max = <span class="text-yellow-400">MAX</span>(r_norm, g_norm, b_norm)
+    c_min = <span class="text-yellow-400">MIN</span>(r_norm, g_norm, b_norm)
+    
+    <span class="text-slate-500">// Paso 2: Calcular Delta ($\Delta$)</span>
+    <span class="text-emerald-400">delta</span> = c_max - c_min
+    
+    <span class="text-slate-500">// Paso 3: Evaluar Condición Especial</span>
+    <span class="text-purple-400">SI</span> <span class="text-emerald-400">delta</span> == 0 <span class="text-purple-400">ENTONCES</span>
+        matiz = UNDEFINED <span class="text-slate-500">// Indefinido / 0 grados</span>
+        saturacion = 0
+        luminosidad = c_max
+        <span class="text-purple-400">RETORNAR</span> {matiz, saturacion, luminosidad, es_gris: VERDADERO}
+    <span class="text-purple-400">SINO</span>
+        <span class="text-slate-500">// Algoritmo estándar de matiz HSL</span>
+        <span class="text-purple-400">SI</span> c_max == r_norm ENTONCES
+            matiz = ((g_norm - b_norm) / delta) MOD 6
+        <span class="text-purple-400">SINO SI</span> c_max == g_norm ENTONCES
+            matiz = ((b_norm - r_norm) / delta) + 2
+        <span class="text-purple-400">SINO</span>
+            matiz = ((r_norm - g_norm) / delta) + 4
+        <span class="text-purple-400">FIN SI</span>
+        matiz = matiz * 60
+    <span class="text-purple-400">FIN SI</span>
+    <span class="text-purple-400">RETORNAR</span> {matiz, delta}
+<span class="text-purple-400">FIN FUNCION</span></pre>
+                </div>
+
+                <!-- Explicación de Delta = 0 -->
+                <div class="bg-museum-card border border-museum-border rounded-xl p-5 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                        Explicación Detallada cuando $\Delta = 0$
+                    </h3>
+                    <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+                        <p>
+                            En la geometría del espacio cromático (como el cono HSV o el hexacono HSL), el matiz ($H$) se representa como un ángulo que gira de $0^\circ$ a $360^\circ$ alrededor de un eje central que va desde el negro absoluto hasta el blanco absoluto.
+                        </p>
+                        <div class="bg-slate-900 p-3 rounded border border-slate-800 space-y-2">
+                            <h4 class="font-bold text-cyan-300">¿Qué significa numéricamente $\Delta = 0$?</h4>
+                            <p> Significa que los componentes primarios son idénticos ($R = G = B$). Por lo tanto:</p>
+                            <div class="font-mono text-center text-emerald-400 py-1">
+                                \Delta = \max(R,G,B) - \min(R,G,B) = 0
+                            </div>
+                        </div>
+                        <p>
+                            <strong>Implicación matemática e indeterminación:</strong> Si intentáramos calcular el matiz usando la fórmula estándar sin la bifurcación condicional, nos encontraríamos con una división entre cero ($\frac{G - B}{\Delta} \rightarrow \frac{0}{0}$), lo cual es una indeterminación matemática.
+                        </p>
+                        <p>
+                            <strong>Significado computacional y gráfico:</strong> Desde el punto de vista perceptivo, cuando $\Delta = 0$, el color carece por completo de cromaticidad o pureza de tono. El color se ubica exactamente en el eje neutro acromático (escala de grises, negro o blanco). Por convención estándar en motores de render y APIs como OpenGL o WebGL, cuando $\Delta = 0$, se asigna de forma segura el matiz a $0^\circ$ y la saturación a $0\%$, evitando interrupciones por excepción de división por cero.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECCIÓN 6: GLOSARIO ==================== -->
+        <section id="glosario" class="scroll-mt-20 space-y-6">
+            <div class="border-b border-museum-border pb-4">
+                <span class="text-xs font-bold text-museum-accent uppercase tracking-wider">Sección 6</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">Glosario Técnico de Computación Gráfica</h2>
+                <p class="text-museum-muted text-sm mt-1">Diez términos fundamentales explicados con terminología accesible y ejemplos del mundo real.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-cyan-400">1. Vóxel (Volume Pixel)</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Geometría 3D</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Es el equivalente tridimensional de un píxel plano; representa una unidad de volumen en una rejilla regular 3D.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> Los bloques de Minecraft o los puntos de datos de una tomografía médica.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-purple-400">2. Rasterización</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Renderizado</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Proceso de convertir vectores geométricos o polígonos matemáticos 3D en una matriz de píxeles discretos para pantalla.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> Transformar un triángulo con coordenadas numéricas en puntos coloreados en un monitor.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-emerald-400">3. Anti-Aliasing (Suavizado)</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Calidad de Imagen</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Técnica de filtrado para disimular los bordes escalonados o "dientes de sierra" mediante mezcla de colores bordes.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> Ajustes como FXAA, MSAA o DLSS en el menú de un videojuego para suavizar líneas diagonales.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-amber-400">4. Shader</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Programación GPU</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Un pequeño programa ejecutable directamente en la tarjeta gráfica que calcula efectos de luz, posición o color por píxel o vértice.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> Un Shader que simula las olas y destellos del agua en un océano virtual.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-rose-400">5. Buffer de Profundidad (Z-Buffer)</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Memoria de Imagen</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Bloque de memoria que guarda la distancia desde la cámara a cada píxel para saber qué objeto tapar y qué objeto mostrar.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> Evitar que la pared del fondo se dibuje encima del personaje que está adelante.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-cyan-400">6. Framebuffer</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Hardware / Salida</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Porción de la memoria RAM de video donde la GPU dibuja la imagen completa antes de enviarla a la pantalla.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> La imagen lista en memoria esperando ser refrescada a 60 Hz o 144 Hz por el monitor.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-purple-400">7. Mapeo de Texturas (Texture Mapping)</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Materiales 3D</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Proceso de envolver una imagen bidimensional (2D) sobre la superficie de un modelo geométrico tridimensional (3D).</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> Aplicar la foto de una corteza de madera sobre un cilindro 3D para que parezca un tronco real.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-emerald-400">8. Occlusión Ambiental (Ambient Occlusion)</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Iluminación</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Método que calcula el oscurecimiento en grietas, esquinas y pliegues donde la luz ambiental difusa tiene dificultad para ingresar.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> La sombra suave que se forma entre el borde de un libro y la mesa sobre la que descansa.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-amber-400">9. Mipmapping</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Optimización</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Técnica que genera copias precargadas de una textura a resoluciones progresivamente menores para ahorrar memoria y evitar parpadeos lejanos.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> Usar una versión reducida de $64 \times 64$ píxeles para una señal de tránsito cuando está muy lejos de la cámara.</p>
+                </div>
+
+                <div class="bg-museum-card border border-museum-border p-4 rounded-xl space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-rose-400">10. Trazado de Rayos (Ray Tracing)</h3>
+                        <span class="text-[10px] font-mono bg-slate-900 px-2 py-0.5 rounded text-slate-400">Simulación Física</span>
+                    </div>
+                    <p class="text-xs text-slate-300"><strong>Definición propia:</strong> Algoritmo de renderizado que simula el trayecto físico de fotones desde la cámara trazando sus rebotes con los objetos.</p>
+                    <p class="text-[11px] text-museum-muted italic"><strong>Ejemplo:</strong> Reflejos exactos en espejos curvos o agua cristalina en películas de animación de última generación.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== SECCIÓN 7: CIERRE Y FUENTES ==================== -->
+        <section id="cierre" class="scroll-mt-20 space-y-6">
+            <div class="border-b border-museum-border pb-4">
+                <span class="text-xs font-bold text-museum-accent uppercase tracking-wider">Sección 7</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">Cierre, Reflexión y Fuentes Bibliográficas</h2>
+                <p class="text-museum-muted text-sm mt-1">Síntesis de aprendizajes, cambio conceptual basado en evidencias y créditos académicos completados.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Bitácora de Aprendizaje / Transformación -->
+                <div class="bg-museum-card border border-museum-border rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Reflexión e Idea que más Cambió
+                    </h3>
+
+                    <div class="space-y-3 text-xs text-slate-300">
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                            <strong class="text-rose-400 block mb-1">Idea Inicial (Antes pensaba):</strong>
+                            <p>Antes pensaba que la computación gráfica era simplemente el dibujo estático de imágenes en pantalla o la mera combinación visual de colores predeterminados por el software sin base física real.</p>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                            <strong class="text-emerald-400 block mb-1">Evidencia que la Cambió (Laboratorio y Algoritmo):</strong>
+                            <p>La evidencia de manipular los canales de color en tiempo real y analizar la indeterminación cuando $\Delta = 0$ me demostró que cada imagen es en realidad una matriz matemática compleja regida por física óptica, modelos trigonométricos y optimizaciones de hardware extremadamente rigurosas.</p>
+                        </div>
+
+                        <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                            <strong class="text-cyan-400 block mb-1">Siguiente Acción Concreta:</strong>
+                            <p>Explorar la programación de shaders en código GLSL nativo utilizando WebGL para implementar filtros de distorsión lumínica personalizados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fuentes y Créditos -->
+                <div class="bg-museum-card border border-museum-border rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        Fuentes de Consulta y Créditos
+                    </h3>
+
+                    <ul class="space-y-3 text-xs text-slate-300">
+                        <li class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                            <strong class="text-white block">Foley, J. D., & van Dam, A. (2014).</strong>
+                            <span class="text-museum-muted">Computer Graphics: Principles and Practice. Addison-Wesley Professional.</span>
+                            <a href="https://www.khronos.org" target="_blank" rel="noopener" class="text-cyan-400 hover:underline block mt-0.5">https://www.khronos.org</a>
+                        </li>
+                        <li class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                            <strong class="text-white block">Sutherland, I. E. (1963).</strong>
+                            <span class="text-museum-muted">Sketchpad: A man-machine graphical communication system. AFIPS Conference Proceedings.</span>
+                        </li>
+                        <li class="bg-slate-900 p-2.5 rounded border border-slate-800">
+                            <strong class="text-white block">Akenine-Möller, T., Haines, E., & Hoffman, N. (2018).</strong>
+                            <span class="text-museum-muted">Real-Time Rendering (4th ed.). CRC Press.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de página final -->
+    <footer class="border-t border-museum-border bg-slate-950 py-8 text-center text-xs text-museum-muted mt-auto">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p>© 2026 Museo Web de la Evolución Gráfica — Proyecto Académico de Computación Gráfica.</p>
+            <p class="text-[11px] text-slate-500">Diseñado con HTML5 semántico, Tailwind CSS y JavaScript autosostenible. Cumple con pautas WCAG de accesibilidad.</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA INTERACTIVA EN JAVASCRIPT -->
+    <script>
+        // Manejo del menú móvil
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cierre del menú móvil al seleccionar un enlace
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // ==================== LÓGICA EXPERIMENTO 1 (RGB -> CMY) ====================
+        const rInput = document.getElementById('exp1-r');
+        const gInput = document.getElementById('exp1-g');
+        const bInput = document.getElementById('exp1-b');
+
+        function updateExp1() {
+            const r = parseInt(rInput.value);
+            const g = parseInt(gInput.value);
+            const b = parseInt(bInput.value);
+
+            document.getElementById('val-r').textContent = r;
+            document.getElementById('val-g').textContent = g;
+            document.getElementById('val-b').textContent = b;
+
+            // Actualizar color box
+            const colorBox = document.getElementById('exp1-color-box');
+            colorBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+            // Normalizados y CMY
+            const rNorm = (r / 255).toFixed(2);
+            const gNorm = (g / 255).toFixed(2);
+            const bNorm = (b / 255).toFixed(2);
+
+            const c = (1 - r / 255).toFixed(2);
+            const m = (1 - g / 255).toFixed(2);
+            const y = (1 - b / 255).toFixed(2);
+
+            document.getElementById('rgb-norm').textContent = `${rNorm}, ${gNorm}, ${bNorm}`;
+            document.getElementById('cmy-val').textContent = `${c}, ${m}, ${y}`;
+
+            // Máximo, Mínimo y Delta
+            const maxVal = Math.max(r, g, b);
+            const minVal = Math.min(r, g, b);
+            const delta = maxVal - minVal;
+
+            document.getElementById('exp1-max').textContent = maxVal;
+            document.getElementById('exp1-min').textContent = minVal;
+            document.getElementById('exp1-delta').textContent = delta;
+
+            // Actualizar conclusión según delta
+            const conclusion = document.getElementById('exp1-conclusion');
+            if (delta === 0) {
+                conclusion.innerHTML = "<strong>Delta = 0 detectado:</strong> El color seleccionado es un tono puramente acromático (gris/blanco/negro). En el espacio CMY, todos los componentes tienen la misma proporción.";
+            } else {
+                conclusion.innerHTML = "El modelo RGB representa síntesis aditiva para pantallas, mientras que CMY es su opuesto complementario directo ($C = 1 - R/255$). Un Delta mayor refleja mayor saturación de color primario sobre neutro.";
+            }
+        }
+
+        rInput.addEventListener('input', updateExp1);
+        gInput.addEventListener('input', updateExp1);
+        bInput.addEventListener('input', updateExp1);
+
+        // ==================== LÓGICA EXPERIMENTO 2 (HSL / HSV / DELTA) ====================
+        function setExp2Color(r, g, b) {
+            document.getElementById('exp2-r').value = r;
+            document.getElementById('exp2-g').value = g;
+            document.getElementById('exp2-b').value = b;
+            updateExp2();
+        }
+
+        function updateExp2() {
+            const r = parseInt(document.getElementById('exp2-r').value) || 0;
+            const g = parseInt(document.getElementById('exp2-g').value) || 0;
+            const b = parseInt(document.getElementById('exp2-b').value) || 0;
+
+            const rNorm = r / 255;
+            const gNorm = g / 255;
+            const bNorm = b / 255;
+
+            const max = Math.max(rNorm, gNorm, bNorm);
+            const min = Math.min(rNorm, gNorm, bNorm);
+            const delta = max - min;
+
+            let h = 0;
+            let l = (max + min) / 2;
+
+            if (delta !== 0) {
+                if (max === rNorm) {
+                    h = ((gNorm - bNorm) / delta) % 6;
+                } else if (max === gNorm) {
+                    h = (bNorm - rNorm) / delta + 2;
+                } else {
+                    h = (rNorm - gNorm) / delta + 4;
+                }
+                h = Math.round(h * 60);
+                if (h < 0) h += 360;
+            }
+
+            document.getElementById('exp2-hue').textContent = delta === 0 ? "Indefinido (0°)" : `${h}°`;
+            document.getElementById('exp2-lum').textContent = `${Math.round(l * 100)}%`;
+            document.getElementById('exp2-maxmin').textContent = `${Math.round(max * 255)} / ${Math.round(min * 255)}`;
+            document.getElementById('exp2-delta').textContent = Math.round(delta * 255);
+
+            const exp2Conc = document.getElementById('exp2-conclusion');
+            if (delta === 0) {
+                exp2Conc.innerHTML = "<strong>Conclusión ($\Delta = 0$):</strong> Al ser la diferencia $\Delta = 0$, la acromaticidad es absoluta. No existe un tono cromático definible y la saturación cae exactamente a 0%. Esto previene divisiones por cero en el código de cálculo de matiz.";
+            } else {
+                exp2Conc.innerHTML = `<strong>Conclusión ($\Delta = ${Math.round(delta*255)}$):</strong> Existe cromaticidad activa. El tono dominante está ubicado en los $${h}^\circ$ del círculo cromático con un contraste relativo de $${Math.round(delta*100)}\%$.`;
+            }
+        }
+
+        // ==================== LÓGICA EXPERIMENTO 3 (CANVAS INTERACTIVO) ====================
+        function renderExp3Canvas() {
+            const canvas = document.getElementById('exp3-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            // Ajustar resolución interna del canvas
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            const threshold = parseInt(document.getElementById('exp3-threshold').value);
+            document.getElementById('exp3-thresh-val').textContent = threshold;
+
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // Dibujar patrón sintético con gradientes
+            const imgData = ctx.createImageData(width, height);
+            const data = imgData.data;
+
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const idx = (y * width + x) * 4;
+
+                    // Generar un patrón geométrico de prueba
+                    const r = Math.floor((x / width) * 255);
+                    const g = Math.floor((y / height) * 255);
+                    const b = Math.floor(((x + y) / (width + height)) * 255);
+
+                    const max = Math.max(r, g, b);
+                    const min = Math.min(r, g, b);
+                    const delta = max - min;
+
+                    // Aplicar umbralizado basado en el Delta del experimento
+                    if (delta < threshold) {
+                        // Acromático filtrado -> Tono oscuro
+                        data[idx] = 15;
+                        data[idx + 1] = 23;
+                        data[idx + 2] = 42;
+                        data[idx + 3] = 255;
+                    } else {
+                        // Conservar color con realce
+                        data[idx] = r;
+                        data[idx + 1] = g;
+                        data[idx + 2] = b;
+                        data[idx + 3] = 255;
+                    }
+                }
+            }
+
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        // Inicialización general al cargar la ventana
+        window.onload = function() {
+            updateExp1();
+            updateExp2();
+            renderExp3Canvas();
+        };
+
+        // Re-renderizar canvas al redimensionar la ventana de forma responsiva
+        window.addEventListener('resize', () => {
+            renderExp3Canvas();
+        });
+    </script>
+</body>
+</html>
